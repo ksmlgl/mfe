@@ -1,27 +1,31 @@
-name: deploy-container
-
+name: deploy container
+ 
 on:
+  pull_request:
   push:
-    branches:
+    branches: 
       - master
-    paths:
-      - 'packages/container/**'
-
+# removed the Paths option
+ 
 defaults:
   run:
-    working-directory: packages/container
-
+    working-directory: container # before : packages/container, but just in my case only
+ 
 jobs:
   build:
+    name: Running Build
     runs-on: ubuntu-latest
-
+ 
     steps:
       - uses: actions/checkout@v2
-      - run: npm install
-      - run: npm run build
-
+      - name: Install
+        run: npm install
+      - name: Build
+        run: npm run build
+ 
       - uses: chrislennon/action-aws-cli@v1.1
-      - run: aws s3 sync dist s3://${{ secrets.AWS_S3_BUCKET_NAME }}/container/latest
+      - name: Connect to AWS
+        run: aws s3 sync dist s3://${‌{ secrets.AWS_S3_BUCKET_NAME }}/container/latest
         env:
-          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_ACCESS_KEY_ID: ${‌{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${‌{ secrets.AWS_SECRET_ACCESS_KEY }}
