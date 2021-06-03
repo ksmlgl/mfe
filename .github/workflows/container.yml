@@ -1,35 +1,24 @@
-name: deploy container
+name: deploy-container
  
 on:
-  pull_request:
   push:
     branches:
-      - main
-# removed the Paths option
+      - master
  
 defaults:
   run:
-    working-directory: ./container
+    working-directory: container
  
 jobs:
   build:
-    name: Running Build
     runs-on: ubuntu-latest
  
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v2
+ 
         with:
-          node-version: "14"
-      - name: Install
-        run: npm install
-      - name: Build
-        run: npm run build
-      - name: ACTIONS_ALLOW_UNSECURE_COMMANDS
-        run: echo 'ACTIONS_ALLOW_UNSECURE_COMMANDS=true' >> $GITHUB_ENV
-      - uses: chrislennon/action-aws-cli@v1.1
-      - name: Connect to AWS
-        run: aws s3 sync dist s3://${‌ secrets.AWS_S3_BUCKET_NAME }/container/latest
-        env:
-          AWS_ACCESS_KEY_ID: ${‌ secrets.AWS_ACCESS_KEY_ID }
-          AWS_SECRET_ACCESS_KEY: ${‌ secrets.AWS_SECRET_ACCESS_KEY }
+          node-version: '14'
+          
+      - run: npm install
+      - run: npm run build
