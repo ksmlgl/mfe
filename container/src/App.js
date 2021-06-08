@@ -7,13 +7,14 @@ import { StylesProvider, createGenerateClassName } from '@material-ui/core/style
 
 const MarketingLazy = lazy(() => import('./components/MarketingApp'));
 const AuthLazy = lazy(() => import('./components/AuthApp'));
+const DashboardLazy = lazy(() => import('./components/DashboardApp'));
 
 const generateClassName = createGenerateClassName({
     productionPrefix: 'co',
 });
 
 
-export default ({onSignIn}) => {
+export default ({ onSignIn }) => {
 
     const [isSignIn, setIsSignedIn] = useState(false);
 
@@ -27,6 +28,7 @@ export default ({onSignIn}) => {
                             <Route path="/auth" >
                                 <AuthLazy onSignIn={() => setIsSignedIn(true)} />
                             </Route>
+                            <Route path="/dashboard" component={DashboardLazy} />
                             <Route path="/" component={MarketingLazy} />
                         </Switch>
 
