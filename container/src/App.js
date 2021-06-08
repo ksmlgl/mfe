@@ -1,6 +1,6 @@
 import React, { lazy, Suspense } from 'react'
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
-
+import Progress from './components/Progress'
 import Header from './components/Header'
 import { StylesProvider, createGenerateClassName } from '@material-ui/core/styles';
 
@@ -19,7 +19,7 @@ export default () => {
             <StylesProvider generateClassName={generateClassName}>
                 <div>
                     <Header />
-                    <Suspense fallback={<div>Loading...</div>}>
+                    <Suspense fallback={<Progress />}>
                         <Switch>
                             <Route path="/auth" component={AuthLazy} />
                             <Route path="/" component={MarketingLazy} />
